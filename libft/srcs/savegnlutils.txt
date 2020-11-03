@@ -1,0 +1,81 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gnl_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lspiess <lspiess@student.42.us.org>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/04/30 16:26:10 by lspiess           #+#    #+#             */
+/*   Updated: 2020/04/30 16:26:47 by lspiess          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "gnl.h"
+
+t_gnl_list			*gnl_create_node(int fd)
+{
+	t_gnl_list			*new;
+
+	if (!(new = malloc(sizeof(t_gnl_list))))
+		return (NULL);
+	new->fd = fd;
+	new->heap = NULL;
+	new->next = NULL;
+	return (new);
+}
+
+t_gnl_list			*gnl_select_node(t_gnl_list *rootp, int fd)
+{
+	t_gnl_list			*head;
+
+	if (rootp == NULL)
+	{
+		if (!(rootp = gnl_create_node(fd)))
+			return (NULL);
+		return (rootp);
+	}
+	head = rootp;
+	while (head)
+	{
+		if (head->fd == fd)
+		{
+			return (head);
+		}
+		if (head->next != NULL)
+			head = head->next;
+		else
+			break ;
+	}
+	if (!(head->next = gnl_create_node(fd)))
+		return (NULL);
+	return (head->next);
+}
+
+int					gnl_free_node(int fd, t_gnl_list **rootpp)
+{
+	t_gnl_list			*head;
+	t_gnl_list			*to_free;
+
+	head = *rootpp;
+	if (head->fd == fd)
+	{
+		(*rootpp) = head->next;
+		free (head);
+		return (0);
+	}
+	while (1)
+	{
+		if (head->next)
+		{
+			if (head->next->fd == fd)
+			{
+				to_free = head->next;
+				head->next = head->next->next;
+				free(to_free);
+				return (0);
+			}
+			head = head->next;
+		}
+		return (0);
+	}
+}

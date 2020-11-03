@@ -1,0 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gnl.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lspiess <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/14 19:17:12 by lspiess           #+#    #+#             */
+/*   Updated: 2020/04/30 16:30:38 by lspiess          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef GNL_H
+# define GNL_H
+
+# include "stringft.h"
+# include "memft.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+
+typedef struct			s_gnl_list {
+	int					fd;
+	char				*heap;
+	struct s_gnl_list	*next;
+}						t_gnl_list;
+
+t_gnl_list			*gnl_create_node(int fd);
+t_gnl_list			*gnl_select_node(t_gnl_list *rootp, int fd);
+int					gnl_free_node(int fd, t_gnl_list **rootpp);
+
+int				get_next_line(char **line, int fd);
+
+#endif
