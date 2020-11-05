@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gettime.c                                          :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lspiess <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/25 22:49:59 by user42            #+#    #+#             */
-/*   Updated: 2020/11/04 11:52:33 by user42           ###   ########.fr       */
+/*   Created: 2019/04/16 15:15:23 by lspiess           #+#    #+#             */
+/*   Updated: 2020/11/04 16:45:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers_philo_one.h"
-
 /*
-** Get the time since the epoch in milliseconds
+** DESCRIPTION
+**	copies contents of src into dst and null-terminates
 */
 
-unsigned long	gettime(struct timeval *tv)
+char		*ft_strcpy(char *dst, const char *src)
 {
-	gettimeofday(tv, NULL);
-	return (tv->tv_sec * 1000 + tv->tv_usec * 0.001);
+	unsigned int	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dst[i] = (char)src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
 }

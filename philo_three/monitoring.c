@@ -6,11 +6,11 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 14:24:12 by user42            #+#    #+#             */
-/*   Updated: 2020/11/04 11:53:25 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/03 17:11:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers_philo_one.h"
+#include "headers_philo_two.h"
 
 /*
 ** Check if the philosopher has meals left
@@ -18,13 +18,13 @@
 
 int				sated(t_philo *philo)
 {
-	pthread_mutex_lock(&(philo->meals_left_lock));
+	sem_wait(&(philo->meals_left_sem));
 	if (philo->meals_left == 0)
 	{
-		pthread_mutex_unlock(&(philo->meals_left_lock));
+		sem_post(&(philo->meals_left_sem));
 		return (1);
 	}
-	pthread_mutex_unlock(&(philo->meals_left_lock));
+	sem_post(&(philo->meals_left_sem));
 	return (0);
 }
 
@@ -43,16 +43,16 @@ void			*take_pulse(void *p)
 	philo = (t_philo *)(p);
 	while (everyone_alive(philo) && !sated(philo))
 	{
-		pthread_mutex_lock(&(philo->last_meal_lock));
+		sem_wait(&(philo->last_meal_sem));
 		t = gettime(&tv);
-		pthread_mutex_unlock(&(philo->last_meal_lock));
+		sem_post(&(philo->last_meal_sem));
 		time_since_ate = t - philo->last_meal;
 		if (time_since_ate > philo->time_to->die)
 		{
 			print_died(philo, philo->n, t - philo->time_to->start);
-			pthread_mutex_lock(philo->man_down_lock);
+			sem_wait(philo->man_down_sem);
 			*(philo->man_down) = 1;
-			pthread_mutex_unlock(philo->man_down_lock);
+			sem_post(philo->man_down_sem);
 			return (NULL);
 		}
 		usleep(10);
@@ -68,12 +68,12 @@ void			*take_pulse(void *p)
 
 int				everyone_alive(t_philo *philo)
 {
-	pthread_mutex_lock(philo->man_down_lock);
+	sem_wait(philo->man_down_sem);
 	if (*(philo->man_down))
 	{
-		pthread_mutex_unlock(philo->man_down_lock);
+		sem_post(philo->man_down_sem);
 		return (0);
 	}
-	pthread_mutex_unlock(philo->man_down_lock);
+	sem_post(philo->man_down_sem);
 	return (1);
 }

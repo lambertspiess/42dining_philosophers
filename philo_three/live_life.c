@@ -6,46 +6,52 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/04 16:04:19 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/05 12:24:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers_philo_one.h"
+#include "headers_philo_two.h"
 
-void			grab_right_then_left_fork(t_philo *philo)
-{
-	struct timeval	tv;
+//void			grab_right_then_left_fork(t_philo *philo)
+//{
+//	struct timeval	tv;
+//
+//	sem_wait(&(philo->right_fork->lock));
+//	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
+//	sem_wait(&(philo->left_fork->lock));
+//	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
+//}
+//
+//void			grab_left_then_right_fork(t_philo *philo)
+//{
+//	struct timeval	tv;
+//
+//	sem_wait(&(philo->left_fork->lock));
+//	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
+//	sem_wait(&(philo->right_fork->lock));
+//	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
+//}
 
-	pthread_mutex_lock(&(philo->right_fork->lock));
-	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
-	pthread_mutex_lock(&(philo->left_fork->lock));
-	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
-}
-
-void			grab_left_then_right_fork(t_philo *philo)
-{
-	struct timeval	tv;
-
-	pthread_mutex_lock(&(philo->left_fork->lock));
-	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
-	pthread_mutex_lock(&(philo->right_fork->lock));
-	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
-}
-
-/*
-** even-numbered philosopher try to grab the right fork first,
-** odd-numbered philosophers try to grab the left fork first.
-*/
-
-void			*th_print_is_eating(void *p)
+void			*th_print_eat_and_decrement(void *p)
 {
 	t_philo			*philo;
 
 	philo = (t_philo *)(p);
 	print_is_eating(philo, philo->n, philo->last_meal - philo->time_to->start);
-	pthread_mutex_lock(&(philo->meals_left_lock));
+	sem_wait(&(philo->meals_left_sem));
 	philo->meals_left -= 1;
-	pthread_mutex_unlock(&(philo->meals_left_lock));
+	sem_post(&(philo->meals_left_sem));
+	return (NULL);
+}
+
+void			*th_print_took_forks(void *p)
+{
+	t_philo			*philo;
+	struct timeval	tv;
+
+	philo = (t_philo *)(p);
+	print_took_forks(philo, philo->n, \
+						philo->last_meal - philo->time_to->start);
 	return (NULL);
 }
 
@@ -53,21 +59,20 @@ void			*eat(t_philo *philo)
 {
 	struct timeval	tv;
 	unsigned long	t;
-	pthread_t		idprint;
+	pthread_t		idprint_eating;
+	pthread_t		idprint_forks;
 
-	if (philo->n % 2 == 0)
-		grab_right_then_left_fork(philo);
-	else
-		grab_left_then_right_fork(philo);
-	pthread_mutex_lock(&(philo->last_meal_lock));
+	sem_wait(philo->sem_forks);
+	sem_wait(&(philo->last_meal_sem));
 	philo->last_meal = gettime(&tv);
-	pthread_create(&idprint, NULL, th_print_is_eating, philo);
-	philo->last_meal += philo->time_to->eat;
+	pthread_create(&idprint_forks, NULL, th_print_took_forks, philo);
+	pthread_create(&idprint_eating, NULL, th_print_eat_and_decrement, philo); 
+//	philo->last_meal += philo->time_to->eat;
 	usleep(philo->time_to->eat_us);
-	pthread_mutex_unlock(&(philo->last_meal_lock));
-	pthread_mutex_unlock(&(philo->left_fork->lock));
-	pthread_mutex_unlock(&(philo->right_fork->lock));
-	pthread_join(idprint, NULL);
+	sem_post(philo->sem_forks);
+	sem_post(&(philo->last_meal_sem));
+	pthread_join(idprint_eating, NULL);
+	pthread_join(idprint_forks, NULL);
 	return (NULL);
 }
 
@@ -98,7 +103,7 @@ void			*simulate_philo(void *p)
 void			launch_simulation(t_philos *s)
 {
 	int				i;
-	pthread_t		ids[200];
+	int				pids[200];
 	void			*ret;
 	t_philo			*head;
 	struct timeval	tv;
@@ -109,8 +114,9 @@ void			launch_simulation(t_philos *s)
 	s->time_to.start = gettime(&tv);
 	while (i < s->n)
 	{
+		fork(
 		pthread_create(&(ids[i++]), NULL, simulate_philo, head);
-		head = head->right_fork->next;
+		head = head->next;
 	}
 	i = 0;
 	while (i < s->n)

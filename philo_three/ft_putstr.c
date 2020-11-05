@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gettime.c                                          :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lspiess <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/25 22:49:59 by user42            #+#    #+#             */
-/*   Updated: 2020/11/04 11:52:33 by user42           ###   ########.fr       */
+/*   Created: 2019/04/06 13:06:41 by lspiess           #+#    #+#             */
+/*   Updated: 2020/10/22 00:19:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers_philo_one.h"
+#include "unistd.h"
 
-/*
-** Get the time since the epoch in milliseconds
-*/
-
-unsigned long	gettime(struct timeval *tv)
+void	ft_putstr(const char *s)
 {
-	gettimeofday(tv, NULL);
-	return (tv->tv_sec * 1000 + tv->tv_usec * 0.001);
+	int		i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	write(1, s, i + 1);
 }

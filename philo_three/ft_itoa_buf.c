@@ -1,23 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gettime.c                                          :+:      :+:    :+:   */
+/*   ft_itoa_buf.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/25 22:49:59 by user42            #+#    #+#             */
-/*   Updated: 2020/11/04 11:52:33 by user42           ###   ########.fr       */
+/*   Created: 2020/10/23 18:58:54 by user42            #+#    #+#             */
+/*   Updated: 2020/10/25 22:49:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers_philo_one.h"
-
-/*
-** Get the time since the epoch in milliseconds
-*/
-
-unsigned long	gettime(struct timeval *tv)
+int			ft_itoa_buf(char *s, long i)
 {
-	gettimeofday(tv, NULL);
-	return (tv->tv_sec * 1000 + tv->tv_usec * 0.001);
+	long		j;
+	long		len;
+	long		idx;
+
+	if (i == 0)
+	{
+		*s = '0';
+		return (1);
+	}
+	len = 1;
+	j = i;
+	while (j > 9)
+	{
+		len++;
+		j /= 10;
+	}
+	idx = len - 1;
+	while (i)
+	{
+		s[idx--] = (i % 10) + '0';
+		i /= 10;
+	}
+	return ((int)(len));
 }

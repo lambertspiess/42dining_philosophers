@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gettime.c                                          :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/25 22:49:59 by user42            #+#    #+#             */
-/*   Updated: 2020/11/04 11:52:33 by user42           ###   ########.fr       */
+/*   Created: 2020/10/15 16:25:16 by user42            #+#    #+#             */
+/*   Updated: 2020/11/03 15:43:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers_philo_one.h"
+#include "headers_philo_two.h"
 
-/*
-** Get the time since the epoch in milliseconds
-*/
+static t_philos				g_phi;
 
-unsigned long	gettime(struct timeval *tv)
+int			main(int ac, char **av)
 {
-	gettimeofday(tv, NULL);
-	return (tv->tv_sec * 1000 + tv->tv_usec * 0.001);
+	ft_bzero(&g_phi, sizeof(t_philos));
+	parse_args(ac, av, &g_phi);
+	printf("n = %d, timers : %d, %d, %d, max meals = %ld\n",
+		g_phi.n, g_phi.time_to.die, g_phi.time_to.eat, g_phi.time_to.sleep, \
+		g_phi.max_meals);
+	init_philosophers(&g_phi);
+	launch_simulation(&g_phi);
+	return (0);
 }

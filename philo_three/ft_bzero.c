@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gettime.c                                          :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lspiess <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/25 22:49:59 by user42            #+#    #+#             */
-/*   Updated: 2020/11/04 11:52:33 by user42           ###   ########.fr       */
+/*   Created: 2019/04/16 16:15:35 by lspiess           #+#    #+#             */
+/*   Updated: 2020/10/22 00:17:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers_philo_one.h"
+#include <unistd.h>
 
-/*
-** Get the time since the epoch in milliseconds
-*/
-
-unsigned long	gettime(struct timeval *tv)
+void		ft_bzero(void *s, size_t n)
 {
-	gettimeofday(tv, NULL);
-	return (tv->tv_sec * 1000 + tv->tv_usec * 0.001);
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		*((unsigned char *)(s + i)) = '\0';
+		i++;
+	}
 }
