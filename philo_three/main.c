@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 16:25:16 by user42            #+#    #+#             */
-/*   Updated: 2020/11/03 15:43:14 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/05 23:01:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int			main(int ac, char **av)
 	printf("n = %d, timers : %d, %d, %d, max meals = %ld\n",
 		g_phi.n, g_phi.time_to.die, g_phi.time_to.eat, g_phi.time_to.sleep, \
 		g_phi.max_meals);
-	init_philosophers(&g_phi);
-	launch_simulation(&g_phi);
+//	init_philosophers(&g_phi);
+//	launch_simulation(&g_phi);
 	return (0);
 }

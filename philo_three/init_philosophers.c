@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:14:03 by user42            #+#    #+#             */
-/*   Updated: 2020/11/03 17:12:13 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/05 23:06:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ void		init_philosophers(t_philos *s)
 	t_philo			*new;
 
 	s->man_down = 0;
-	sem_init(&(s->man_down_sem), 0, 1);
-	sem_init(&(s->sem_forks), 0, s->n / 2);
+	//convert shared semaphores to to sem_open
+	sem_open(&(s->man_down_sem), 0, 1);
+	sem_open(&(s->sem_forks), 0, s->n / 2);
 	if (!(s->philo = alloc_philo(0, s)))
 		error_exit("Malloc failure in alloc_philo()\n");
 	root = s->philo;
