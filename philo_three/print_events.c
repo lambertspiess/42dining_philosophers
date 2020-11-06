@@ -6,11 +6,11 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 18:14:29 by user42            #+#    #+#             */
-/*   Updated: 2020/11/04 16:44:56 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 17:06:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers_philo_two.h"
+#include "headers_philo_three.h"
 
 void		print_took_forks(t_philo *philo, int n, unsigned long ms)
 {

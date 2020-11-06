@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 20:45:08 by user42            #+#    #+#             */
-/*   Updated: 2020/11/04 17:08:01 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 18:22:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 # include <sys/time.h>
 # include <stdlib.h>
 # include <semaphore.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <signal.h>
+# include <sys/wait.h>
+# include <sys/types.h>
+
+# define MAN_DOWN_NSEM "/man_down_sem"
+# define FORKS_NSEM  "/forks_sem"
 
 typedef struct			s_timers {
 	int					eat;
@@ -50,11 +58,12 @@ typedef struct			s_philos {
 
 	struct s_philo		*philo;
 	struct s_timers		time_to;
+	int					pids[200];
 	int					n;
 	long				max_meals;
 	int					man_down;
-	sem_t				man_down_sem;
-	sem_t				sem_forks;
+	sem_t				*man_down_sem;
+	sem_t				*sem_forks;
 }						t_philos;
 
 void					ft_bzero(void *s, size_t n);
@@ -84,8 +93,9 @@ int						everyone_alive(t_philo *philo);
 void					parse_args(int ac, char **av, t_philos *s);
 void					init_philosophers(t_philos *s);
 void					free_and_exit(t_philos *s, char *errmsg, int retval);
-void					*simulate_philo(void *p);
+void					simulate_philo(void *p);
 void					launch_simulation(t_philos *s);
 int						everyone_alive(t_philo *philo);
+void					kill_everybody(t_philos *s);
 
 #endif

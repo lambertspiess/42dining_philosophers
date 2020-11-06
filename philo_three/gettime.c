@@ -6,11 +6,11 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 22:49:59 by user42            #+#    #+#             */
-/*   Updated: 2020/11/03 14:21:24 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 15:37:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers_philo_two.h"
+#include "headers_philo_three.h"
 
 unsigned long	gettime(struct timeval *tv)
 {

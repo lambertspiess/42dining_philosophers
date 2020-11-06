@@ -6,11 +6,11 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 14:24:12 by user42            #+#    #+#             */
-/*   Updated: 2020/11/03 17:11:20 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 17:55:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers_philo_two.h"
+#include "headers_philo_three.h"
 
 /*
 ** Check if the philosopher has meals left
@@ -26,6 +26,12 @@ int				sated(t_philo *philo)
 	}
 	sem_post(&(philo->meals_left_sem));
 	return (0);
+}
+
+void			*exit_fork(void)
+{
+	exit(0);
+	return (NULL);
 }
 
 /*
@@ -59,7 +65,7 @@ void			*take_pulse(void *p)
 		if (sated(philo))
 			break ;
 	}
-	return (NULL);
+	return (exit_fork());
 }
 
 /*

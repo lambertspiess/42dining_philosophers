@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 18:22:40 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 15:37:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void			*eat(t_philo *philo)
 	philo->last_meal = gettime(&tv);
 	pthread_create(&idprint_forks, NULL, th_print_took_forks, philo);
 	pthread_create(&idprint_eating, NULL, th_print_eat_and_decrement, philo); 
+//	philo->last_meal += philo->time_to->eat;
 	usleep(philo->time_to->eat_us);
 	sem_post(philo->sem_forks);
 	sem_post(&(philo->last_meal_sem));
@@ -75,7 +76,7 @@ void			*eat(t_philo *philo)
 	return (NULL);
 }
 
-void			simulate_philo(void *p)
+void			*simulate_philo(void *p)
 {
 	t_philo			*philo;
 	struct timeval	tv;
@@ -96,23 +97,29 @@ void			simulate_philo(void *p)
 							gettime(&tv) - philo->time_to->start);
 	}
 	pthread_join(idpulse, NULL);
+	return (NULL);
 }
 
 void			launch_simulation(t_philos *s)
 {
 	int				i;
+	int				pids[200];
 	void			*ret;
 	t_philo			*head;
 	struct timeval	tv;
 
+	ft_bzero(ids, sizeof(ids));
 	head = s->philo;
 	i = 0;
 	s->time_to.start = gettime(&tv);
 	while (i < s->n)
 	{
-		if (!(s->pids[i++] = fork()))
-			simulate_philo(head);
+		fork(
+		pthread_create(&(ids[i++]), NULL, simulate_philo, head);
 		head = head->next;
 	}
-	kill_everybody(s);
+	i = 0;
+	while (i < s->n)
+		pthread_join(ids[i++], NULL);
+	free_and_exit(s, "Exiting...\n", 0);
 }

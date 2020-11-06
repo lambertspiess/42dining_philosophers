@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:14:03 by user42            #+#    #+#             */
-/*   Updated: 2020/11/03 17:12:13 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 17:33:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void		free_and_exit(t_philos *s, char *errmsg, int retval)
 		i++;
 	}
 	sem_close(&(s->man_down_sem));
+	sem_close(&(s->sem_forks));
 	exit(retval);
 }
 

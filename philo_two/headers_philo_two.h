@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 20:45:08 by user42            #+#    #+#             */
-/*   Updated: 2020/11/04 16:43:04 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 16:26:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <sys/time.h>
 # include <stdlib.h>
 # include <semaphore.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <sys/stat.h>
 
 typedef struct			s_timers {
 	int					eat;

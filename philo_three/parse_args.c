@@ -6,11 +6,11 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 22:05:52 by user42            #+#    #+#             */
-/*   Updated: 2020/11/03 14:21:59 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 17:06:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "headers_philo_two.h"
+#include "headers_philo_three.h"
 
 void		error_exit(char *s)
 {
