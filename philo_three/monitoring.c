@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 14:24:12 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 19:08:30 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 19:18:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void			*take_pulse(void *p)
 			*(philo->man_down) = 1;
 			sem_post(philo->man_down_sem);
 			philo->pulse_ret = 1;
-			printf("LALA\n");
 			return (NULL);
 		}
 		usleep(10);
@@ -68,7 +67,7 @@ void			*take_pulse(void *p)
 			break ;
 	}
 	philo->pulse_ret = 0;
-	printf("LALA\n");
+	printf("SATED\n");
 	return (NULL);
 }
 

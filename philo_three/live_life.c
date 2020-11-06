@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 19:12:08 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 19:20:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,9 @@ void			simulate_philo(void *p)
 		print_is_thinking(philo, philo->n, \
 							gettime(&tv) - philo->time_to->start);
 	}
+	printf("WAITING FOR PTHREAD_JOIN\n");
 	pthread_join(idpulse, NULL);
+	printf("ABOUT TO EXIT SFSG\n");
 	exit(philo->pulse_ret);
 }
 

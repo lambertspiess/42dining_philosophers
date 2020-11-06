@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:14:03 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 19:10:15 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 19:18:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void		kill_everybody(t_philos *s)
 	i = 0;
 	while (i++ < s->n)
 	{
-		printf("WAITING...\n");
+		printf("WAITING FOR PID %d OF PHILO %d\n", s->pids[i - 1], i - 1);
 		waitpid(-1, &status, 0);
 	}
 	printf("BONJOUR, status = %d\n", status);
