@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 20:45:08 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 18:22:47 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 19:06:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct			s_philo {
 	sem_t				*man_down_sem;
 	sem_t				*sem_forks;
 	struct s_philo		*next;
+	int					pulse_ret;
 }						t_philo;
 
 typedef struct			s_philos {

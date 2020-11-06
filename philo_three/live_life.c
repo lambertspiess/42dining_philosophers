@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 18:22:40 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 19:12:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void			simulate_philo(void *p)
 	t_philo			*philo;
 	struct timeval	tv;
 	pthread_t		idpulse;
+	int				ret;
 
 	philo = (t_philo *)(p);
 	philo->last_meal = philo->time_to->start;
@@ -96,6 +97,7 @@ void			simulate_philo(void *p)
 							gettime(&tv) - philo->time_to->start);
 	}
 	pthread_join(idpulse, NULL);
+	exit(philo->pulse_ret);
 }
 
 void			launch_simulation(t_philos *s)
@@ -112,6 +114,7 @@ void			launch_simulation(t_philos *s)
 	{
 		if (!(s->pids[i++] = fork()))
 			simulate_philo(head);
+		printf("CREATED PID %d FOR PHILO %d\n", s->pids[i - 1], i - 1);
 		head = head->next;
 	}
 	kill_everybody(s);
