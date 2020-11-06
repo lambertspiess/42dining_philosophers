@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 23:48:40 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/07 00:10:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void			*eat(t_philos *s, t_philo *philo)
 	pthread_t		idprint_forks;
 
 	int checksem; sem_getvalue(s->sem_forks, &checksem);
-	printf("\t%d waiting for sem_forks of value %d\n", philo->n, checksem);
+//	printf("\t%d waiting for sem_forks of value %d\n", philo->n, checksem);
 	sem_wait(s->sem_forks);
-	printf("\t%d got sem_forks\n", philo->n);
+//	printf("\t%d got sem_forks\n", philo->n);
 	sem_wait(&(philo->last_meal_sem));
 	philo->last_meal = gettime(&tv);
 	pthread_create(&idprint_forks, NULL, th_print_took_forks, s);
@@ -82,9 +82,7 @@ void			simulate_philo(t_philos *s, t_philo *philo)
 		print_is_thinking(s, philo, philo->n, \
 							gettime(&tv) - philo->time_to->start);
 	}
-	printf("WAITING FOR PTHREAD_JOIN\n");
 	pthread_join(idpulse, NULL);
-	printf("ABOUT TO EXIT SFSG\n");
 	free_and_exit(s, NULL, 0);
 }
 
@@ -102,7 +100,6 @@ void			launch_simulation(t_philos *s)
 	{
 		if (!(s->pids[i++] = fork()))
 			simulate_philo(s, s->head);
-		printf("CREATED PID %d FOR PHILO %d\n", s->pids[i - 1], i - 1);
 		s->head = s->head->next;
 	}
 	i = 0;
