@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 14:24:12 by user42            #+#    #+#             */
-/*   Updated: 2020/11/03 17:11:20 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 23:17:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ void			*take_pulse(void *p)
 			return (NULL);
 		}
 		usleep(10);
-		if (sated(philo))
-			break ;
 	}
 	return (NULL);
 }

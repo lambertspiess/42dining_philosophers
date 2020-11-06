@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 20:45:08 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 19:06:12 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 23:34:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <sys/types.h>
-
-# define MAN_DOWN_NSEM "/man_down_sem"
-# define FORKS_NSEM  "/forks_sem"
 
 typedef struct			s_timers {
 	int					eat;
@@ -48,9 +45,6 @@ typedef struct			s_philo {
 	sem_t				meals_left_sem;
 	int					heartbeat;
 	sem_t				heartbeat_sem;
-	int					*man_down;
-	sem_t				*man_down_sem;
-	sem_t				*sem_forks;
 	struct s_philo		*next;
 	int					pulse_ret;
 }						t_philo;
@@ -58,11 +52,11 @@ typedef struct			s_philo {
 typedef struct			s_philos {
 
 	struct s_philo		*philo;
+	struct s_philo		*head;
 	struct s_timers		time_to;
 	int					pids[200];
 	int					n;
 	long				max_meals;
-	int					man_down;
 	sem_t				*man_down_sem;
 	sem_t				*sem_forks;
 }						t_philos;
@@ -76,27 +70,26 @@ char					*ft_strcpy(char *dst, const char *src);
 
 void					error_exit(char *s);
 unsigned long			gettime(struct timeval *tv);
-void					print_took_forks(t_philo *philo, \
+void					print_took_forks(t_philos *s, t_philo *philo, \
 											int n, unsigned long ms);
-void					print_is_eating(t_philo *philo, \
+void					print_is_eating(t_philos *s, t_philo *philo, \
 											int n, unsigned long ms);
-void					print_is_sleeping(t_philo *philo, \
+void					print_is_sleeping(t_philos *s, t_philo *philo, \
 											int n, unsigned long ms);
-void					print_is_thinking(t_philo *philo, \
+void					print_is_thinking(t_philos *s, t_philo *philo, \
 											int n, unsigned long ms);
-void					print_died(t_philo *philo, \
+void					print_died(t_philos *s, t_philo *philo, \
 											int n, unsigned long ms);
 
 void					*take_pulse(void *p);
 int						sated(t_philo *philo);
-int						everyone_alive(t_philo *philo);
+int						everyone_alive(t_philos *s);
 
 void					parse_args(int ac, char **av, t_philos *s);
 void					init_philosophers(t_philos *s);
 void					free_and_exit(t_philos *s, char *errmsg, int retval);
-void					simulate_philo(void *p);
+void					simulate_philo(t_philos *s, t_philo *philo);
 void					launch_simulation(t_philos *s);
-int						everyone_alive(t_philo *philo);
-void					kill_everybody(t_philos *s);
+void					kill_pids(t_philos *s);
 
 #endif

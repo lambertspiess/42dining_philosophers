@@ -6,31 +6,25 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:14:03 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 19:18:50 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 23:50:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers_philo_three.h"
 
-void		kill_everybody(t_philos *s)
+void		kill_pids(t_philos *s)
 {
 	int			i;
-	int			status;
 
 	i = 0;
-	while (i++ < s->n)
+	while (i < s->n)
 	{
-		printf("WAITING FOR PID %d OF PHILO %d\n", s->pids[i - 1], i - 1);
-		waitpid(-1, &status, 0);
+		if (s->pids[i] == 0)
+			continue ;
+		kill(s->pids[i], SIGINT);
+		s->pids[i] = 0;
+		i++;
 	}
-	printf("BONJOUR, status = %d\n", status);
-	if (status == 1)
-	{
-		i = 0;
-		while (i < s->n)
-			kill(s->pids[i++], SIGINT);
-	}
-	free_and_exit(s, "Exiting...", 0);
 }
 
 void		free_and_exit(t_philos *s, char *errmsg, int retval)
@@ -71,9 +65,6 @@ t_philo		*alloc_philo(int n, t_philos *s)
 	sem_init(&(philo->last_meal_sem), 0, 1);
 	sem_init(&(philo->heartbeat_sem), 0, 1);
 	sem_init(&(philo->meals_left_sem), 0, 1);
-	philo->man_down = &(s->man_down);
-	philo->man_down_sem = s->man_down_sem;
-	philo->sem_forks = s->sem_forks;
 	philo->next = NULL;
 	return (philo);
 }
@@ -84,9 +75,14 @@ void		init_philosophers(t_philos *s)
 	t_philo			*root;
 	t_philo			*new;
 
-	s->man_down = 0;
-	s->man_down_sem = sem_open(MAN_DOWN_NSEM, O_CREAT, 0644, 1);
-	s->sem_forks = sem_open(FORKS_NSEM, O_CREAT, 0644, s->n / 2);
+	printf("s->n = %d\n", s->n);
+	ft_bzero(&(s->pids[0]), sizeof(s->pids));
+	s->man_down_sem = sem_open("/man_down_sem", O_CREAT, S_IRWXU, 1);
+	s->sem_forks = sem_open("/forks_sem", O_CREAT, S_IRWXU, s->n / 2);
+//debug
+	int checksem; sem_getvalue(s->sem_forks, &checksem);
+	printf("Initialized forks_sem of value %d\n", checksem);
+//debug
 	if (!(s->philo = alloc_philo(0, s)))
 		error_exit("Malloc failure in alloc_philo()\n");
 	root = s->philo;

@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 14:24:12 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 19:18:00 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/06 23:16:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ void			*exit_fork(void)
 
 void			*take_pulse(void *p)
 {
+	t_philos		*s;
 	t_philo			*philo;
 	struct timeval	tv;
 	unsigned long	t;
 	unsigned long	time_since_ate;
 
-	philo = (t_philo *)(p);
-	while (everyone_alive(philo) && !sated(philo))
+	s = (t_philos *)(p);
+	philo = s->head;
+	while (!sated(philo))
 	{
 		sem_wait(&(philo->last_meal_sem));
 		t = gettime(&tv);
@@ -55,34 +57,15 @@ void			*take_pulse(void *p)
 		time_since_ate = t - philo->last_meal;
 		if (time_since_ate > philo->time_to->die)
 		{
-			print_died(philo, philo->n, t - philo->time_to->start);
-			sem_wait(philo->man_down_sem);
-			*(philo->man_down) = 1;
-			sem_post(philo->man_down_sem);
+			print_died(s, philo, philo->n, t - philo->time_to->start);
+			sem_wait(s->man_down_sem);
+			kill_pids(s);
+			sem_post(s->man_down_sem);
 			philo->pulse_ret = 1;
 			return (NULL);
 		}
 		usleep(10);
-		if (sated(philo))
-			break ;
 	}
 	philo->pulse_ret = 0;
-	printf("SATED\n");
 	return (NULL);
-}
-
-/*
-** Check if everyone is still alive
-*/
-
-int				everyone_alive(t_philo *philo)
-{
-	sem_wait(philo->man_down_sem);
-	if (*(philo->man_down))
-	{
-		sem_post(philo->man_down_sem);
-		return (0);
-	}
-	sem_post(philo->man_down_sem);
-	return (1);
 }
