@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:14:03 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 23:50:25 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/07 00:05:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ void		init_philosophers(t_philos *s)
 
 	printf("s->n = %d\n", s->n);
 	ft_bzero(&(s->pids[0]), sizeof(s->pids));
+	sem_unlink("/man_down_sem");
 	s->man_down_sem = sem_open("/man_down_sem", O_CREAT, S_IRWXU, 1);
+	sem_unlink("/forks_sem");
 	s->sem_forks = sem_open("/forks_sem", O_CREAT, S_IRWXU, s->n / 2);
 //debug
 	int checksem; sem_getvalue(s->sem_forks, &checksem);
