@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 20:45:08 by user42            #+#    #+#             */
-/*   Updated: 2020/11/04 16:42:38 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/08 22:38:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void					*ft_memcpy(void *dst, const void *src, size_t n);
 void					error_exit(char *s);
 unsigned long			gettime(struct timeval *tv);
 void					print_took_fork(t_philo *philo, \
+											int n, unsigned long ms);
+void					print_took_fork_and_eat(t_philo *philo, \
 											int n, unsigned long ms);
 void					print_is_eating(t_philo *philo, \
 											int n, unsigned long ms);

@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/08 18:19:21 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/08 22:23:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void			simulate_philo(t_philos *s, t_philo *philo)
 							gettime(&tv) - philo->time_to->start);
 	}
 	pthread_join(idpulse, NULL);
-//	kill_pids(s);
 	free_and_exit(s, NULL, 0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/04 16:04:19 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/08 22:48:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void			grab_right_then_left_fork(t_philo *philo)
 	pthread_mutex_lock(&(philo->right_fork->lock));
 	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
 	pthread_mutex_lock(&(philo->left_fork->lock));
-	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
+	print_took_fork_and_eat(philo, philo->n, \
+								gettime(&tv) - philo->time_to->start);
 }
 
 void			grab_left_then_right_fork(t_philo *philo)
@@ -29,7 +30,8 @@ void			grab_left_then_right_fork(t_philo *philo)
 	pthread_mutex_lock(&(philo->left_fork->lock));
 	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
 	pthread_mutex_lock(&(philo->right_fork->lock));
-	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
+	print_took_fork_and_eat(philo, philo->n, \
+								gettime(&tv) - philo->time_to->start);
 }
 
 /*
@@ -37,12 +39,12 @@ void			grab_left_then_right_fork(t_philo *philo)
 ** odd-numbered philosophers try to grab the left fork first.
 */
 
-void			*th_print_is_eating(void *p)
+void			*th_decrement(void *p)
 {
 	t_philo			*philo;
 
 	philo = (t_philo *)(p);
-	print_is_eating(philo, philo->n, philo->last_meal - philo->time_to->start);
+//	print_is_eating(philo, philo->n, philo->last_meal - philo->time_to->start);
 	pthread_mutex_lock(&(philo->meals_left_lock));
 	philo->meals_left -= 1;
 	pthread_mutex_unlock(&(philo->meals_left_lock));
@@ -53,21 +55,23 @@ void			*eat(t_philo *philo)
 {
 	struct timeval	tv;
 	unsigned long	t;
-	pthread_t		idprint;
+	pthread_t		iddecrement;
 
 	if (philo->n % 2 == 0)
 		grab_right_then_left_fork(philo);
 	else
 		grab_left_then_right_fork(philo);
 	pthread_mutex_lock(&(philo->last_meal_lock));
-	philo->last_meal = gettime(&tv);
-	pthread_create(&idprint, NULL, th_print_is_eating, philo);
+//	philo->last_meal = gettime(&tv);
+	pthread_create(&iddecrement, NULL, th_decrement, philo);
 	philo->last_meal += philo->time_to->eat;
 	usleep(philo->time_to->eat_us);
+	philo->last_meal = gettime(&tv);
 	pthread_mutex_unlock(&(philo->last_meal_lock));
 	pthread_mutex_unlock(&(philo->left_fork->lock));
 	pthread_mutex_unlock(&(philo->right_fork->lock));
-	pthread_join(idprint, NULL);
+//	pthread_join(iddecrement, NULL);
+	pthread_detach(iddecrement);
 	return (NULL);
 }
 
