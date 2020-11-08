@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:14:03 by user42            #+#    #+#             */
-/*   Updated: 2020/11/07 00:09:35 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/08 17:24:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ void		kill_pids(t_philos *s)
 	i = 0;
 	while (i < s->n)
 	{
-		if (s->pids[i] == 0)
-			continue ;
-		kill(s->pids[i], SIGINT);
-		s->pids[i] = 0;
+		if (s->pids[i] != 0)
+		{
+			kill(s->pids[i], SIGINT);
+			s->pids[i] = 0;
+		}
 		i++;
 	}
 }

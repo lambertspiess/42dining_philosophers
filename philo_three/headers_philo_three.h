@@ -6,12 +6,12 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 20:45:08 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 23:34:33 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/08 17:48:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADERS_PHILO_TWO_H
-# define HEADERS_PHILO_TWO_H
+#ifndef HEADERS_PHILO_THREE_H
+# define HEADERS_PHILO_THREE_H
 
 # include <stdio.h>
 # include <unistd.h>
@@ -46,7 +46,6 @@ typedef struct			s_philo {
 	int					heartbeat;
 	sem_t				heartbeat_sem;
 	struct s_philo		*next;
-	int					pulse_ret;
 }						t_philo;
 
 typedef struct			s_philos {

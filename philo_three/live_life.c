@@ -6,21 +6,21 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/07 00:10:02 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/08 17:25:48 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers_philo_three.h"
 
-void			*th_print_eat_and_decrement(void *p)
+void			*th_decrement(void *p)
 {
 	t_philos		*s;
 	t_philo			*philo;
 
 	s = (t_philos *)(p);
 	philo = s->head;
-	print_is_eating(s, philo, philo->n,
-						philo->last_meal - philo->time_to->start);
+//	print_is_eating(s, philo, philo->n,
+//						philo->last_meal - philo->time_to->start);
 	sem_wait(&(philo->meals_left_sem));
 	philo->meals_left -= 1;
 	sem_post(&(philo->meals_left_sem));
@@ -52,7 +52,7 @@ void			*eat(t_philos *s, t_philo *philo)
 	sem_wait(&(philo->last_meal_sem));
 	philo->last_meal = gettime(&tv);
 	pthread_create(&idprint_forks, NULL, th_print_took_forks, s);
-	pthread_create(&idprint_eating, NULL, th_print_eat_and_decrement, s); 
+	pthread_create(&idprint_eating, NULL, th_decrement, s); 
 	usleep(philo->time_to->eat_us);
 	sem_post(s->sem_forks);
 	sem_post(&(philo->last_meal_sem));
@@ -83,6 +83,7 @@ void			simulate_philo(t_philos *s, t_philo *philo)
 							gettime(&tv) - philo->time_to->start);
 	}
 	pthread_join(idpulse, NULL);
+	kill_pids(s);
 	free_and_exit(s, NULL, 0);
 }
 

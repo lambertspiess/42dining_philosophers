@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 14:24:12 by user42            #+#    #+#             */
-/*   Updated: 2020/11/07 00:16:00 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/08 17:51:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ void			*exit_fork(void)
 	return (NULL);
 }
 
+void			*died(t_philos *s, t_philo *philo, unsigned long t)
+{
+	sem_wait(s->man_down_sem);
+	print_died(s, philo, philo->n, t - s->time_to.start);
+	kill_pids(s);
+	free_and_exit(s, NULL, 0);
+	return (NULL);
+}
+
 /*
 ** In a separate thread, monitor the time elapsed since the philosopher ate,
 ** and set the relevant variable philo->man_down to 1 if he's dead.
@@ -56,16 +65,16 @@ void			*take_pulse(void *p)
 		sem_post(&(philo->last_meal_sem));
 		time_since_ate = t - philo->last_meal;
 		if (time_since_ate > philo->time_to->die)
+			return (died(s, philo, t));
 		{
-			print_died(s, philo, philo->n, t - philo->time_to->start);
-			sem_wait(s->man_down_sem);
-			kill_pids(s);
-			sem_post(s->man_down_sem);
-			philo->pulse_ret = 1;
-			return (NULL);
+//			print_died(s, philo, philo->n, t - philo->time_to->start);
+//			sem_wait(s->man_down_sem);
+//			kill_pids(s);
+//			sem_post(s->man_down_sem);
+//			philo->pulse_ret = 1;
+//			return (NULL);
 		}
 		usleep(10);
 	}
-	philo->pulse_ret = 0;
 	return (NULL);
 }

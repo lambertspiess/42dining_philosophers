@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 18:14:29 by user42            #+#    #+#             */
-/*   Updated: 2020/11/06 23:09:50 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/08 17:49:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,22 @@ void		print_took_forks(t_philos *sp, t_philo *philo, int n, \
 {
 	int			i;
 	char		s[248];
+	int			len;
 
 	i = 0;
 	i += ft_itoa_buf(s, ms);
 	ft_memcpy(s + i, " - ", 3);
 	i += 3;
 	i += ft_itoa_buf(s + i, n);
+	len = i;
 	ft_memcpy(s + i, " has taken a fork\n\0", 19);
 	i += 19;
 	ft_strcpy(s + i, s);
 	i *= 2;
+	ft_memcpy(s + i, s, len);
+	i += len;
+	ft_memcpy(s + i, " is eating\n\0", 12);
+	i += 12;
 	sem_wait(sp->man_down_sem);
 	write(1, s, i);
 	sem_post(sp->man_down_sem);
@@ -99,7 +105,7 @@ void		print_died(t_philos *sp, t_philo *philo, int n, \
 	i += ft_itoa_buf(s + i, n);
 	ft_memcpy(s + i, " has died\n\0", 10);
 	i += 10;
-	sem_wait(sp->man_down_sem);
+//	sem_wait(sp->man_down_sem);
 	write(1, s, i);
-	sem_post(sp->man_down_sem);
+//	sem_post(sp->man_down_sem);
 }
