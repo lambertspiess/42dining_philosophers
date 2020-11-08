@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/05 23:00:57 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/08 17:07:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@
 //	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
 //}
 
-void			*th_print_eat_and_decrement(void *p)
+void			*th_decrement(void *p)
 {
 	t_philo			*philo;
 
 	philo = (t_philo *)(p);
-	print_is_eating(philo, philo->n, philo->last_meal - philo->time_to->start);
+//	print_is_eating(philo, philo->n, philo->last_meal - philo->time_to->start);
 	sem_wait(&(philo->meals_left_sem));
 	philo->meals_left -= 1;
 	sem_post(&(philo->meals_left_sem));
@@ -66,13 +66,13 @@ void			*eat(t_philo *philo)
 	sem_wait(&(philo->last_meal_sem));
 	philo->last_meal = gettime(&tv);
 	pthread_create(&idprint_forks, NULL, th_print_took_forks, philo);
-	pthread_create(&idprint_eating, NULL, th_print_eat_and_decrement, philo); 
+	pthread_create(&idprint_eating, NULL, th_decrement, philo); 
 //	philo->last_meal += philo->time_to->eat;
 	usleep(philo->time_to->eat_us);
 	sem_post(philo->sem_forks);
 	sem_post(&(philo->last_meal_sem));
-	pthread_join(idprint_eating, NULL);
-	pthread_join(idprint_forks, NULL);
+	pthread_detach(idprint_forks);
+	pthread_detach(idprint_eating);
 	return (NULL);
 }
 
