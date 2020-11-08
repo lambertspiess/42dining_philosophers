@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 18:14:29 by user42            #+#    #+#             */
-/*   Updated: 2020/11/08 17:49:43 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/09 00:01:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,5 @@ void		print_died(t_philos *sp, t_philo *philo, int n, \
 	i += ft_itoa_buf(s + i, n);
 	ft_memcpy(s + i, " has died\n\0", 10);
 	i += 10;
-//	sem_wait(sp->man_down_sem);
 	write(1, s, i);
-//	sem_post(sp->man_down_sem);
 }

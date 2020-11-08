@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/08 23:31:12 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/08 23:53:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,6 @@ void			grab_left_then_right_fork(t_philo *philo)
 								gettime(&tv) - philo->time_to->start);
 }
 
-/*
-** even-numbered philosopher try to grab the right fork first,
-** odd-numbered philosophers try to grab the left fork first.
-*/
-
-void			*th_decrement(void *p)
-{
-	t_philo			*philo;
-
-	philo = (t_philo *)(p);
-//	print_is_eating(philo, philo->n, philo->last_meal - philo->time_to->start);
-	pthread_mutex_lock(&(philo->meals_left_lock));
-	philo->meals_left -= 1;
-	pthread_mutex_unlock(&(philo->meals_left_lock));
-	return (NULL);
-}
-
 void			*eat(t_philo *philo)
 {
 	struct timeval	tv;
@@ -62,15 +45,12 @@ void			*eat(t_philo *philo)
 	else
 		grab_left_then_right_fork(philo);
 	pthread_mutex_lock(&(philo->last_meal_lock));
-//	philo->last_meal = gettime(&tv);
 	pthread_create(&iddecrement, NULL, th_decrement, philo);
-//	philo->last_meal += philo->time_to->eat;
 	usleep(philo->time_to->eat_us);
 	philo->last_meal = gettime(&tv);
 	pthread_mutex_unlock(&(philo->last_meal_lock));
 	pthread_mutex_unlock(&(philo->left_fork->lock));
 	pthread_mutex_unlock(&(philo->right_fork->lock));
-//	pthread_join(iddecrement, NULL);
 	pthread_detach(iddecrement);
 	return (NULL);
 }

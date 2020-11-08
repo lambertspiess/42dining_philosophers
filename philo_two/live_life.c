@@ -6,38 +6,17 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/08 17:07:31 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/08 23:50:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers_philo_two.h"
-
-//void			grab_right_then_left_fork(t_philo *philo)
-//{
-//	struct timeval	tv;
-//
-//	sem_wait(&(philo->right_fork->lock));
-//	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
-//	sem_wait(&(philo->left_fork->lock));
-//	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
-//}
-//
-//void			grab_left_then_right_fork(t_philo *philo)
-//{
-//	struct timeval	tv;
-//
-//	sem_wait(&(philo->left_fork->lock));
-//	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
-//	sem_wait(&(philo->right_fork->lock));
-//	print_took_fork(philo, philo->n, gettime(&tv) - philo->time_to->start);
-//}
 
 void			*th_decrement(void *p)
 {
 	t_philo			*philo;
 
 	philo = (t_philo *)(p);
-//	print_is_eating(philo, philo->n, philo->last_meal - philo->time_to->start);
 	sem_wait(&(philo->meals_left_sem));
 	philo->meals_left -= 1;
 	sem_post(&(philo->meals_left_sem));
@@ -59,20 +38,19 @@ void			*eat(t_philo *philo)
 {
 	struct timeval	tv;
 	unsigned long	t;
-	pthread_t		idprint_eating;
+	pthread_t		id_decrement;
 	pthread_t		idprint_forks;
 
 	sem_wait(philo->sem_forks);
 	sem_wait(&(philo->last_meal_sem));
 	philo->last_meal = gettime(&tv);
 	pthread_create(&idprint_forks, NULL, th_print_took_forks, philo);
-	pthread_create(&idprint_eating, NULL, th_decrement, philo); 
-//	philo->last_meal += philo->time_to->eat;
+	pthread_create(&id_decrement, NULL, th_decrement, philo);
 	usleep(philo->time_to->eat_us);
 	sem_post(philo->sem_forks);
 	sem_post(&(philo->last_meal_sem));
 	pthread_detach(idprint_forks);
-	pthread_detach(idprint_eating);
+	pthread_detach(id_decrement);
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 20:45:08 by user42            #+#    #+#             */
-/*   Updated: 2020/11/08 22:38:41 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/08 23:54:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void					init_philosophers(t_philos *s);
 void					free_and_exit(t_philos *s, char *errmsg, int retval);
 void					*simulate_philo(void *p);
 void					launch_simulation(t_philos *s);
+void					*th_decrement(void *p);
 
 int						everyone_alive(t_philo *philo);
 void					*take_pulse(void *p);

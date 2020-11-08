@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   decrement.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lspiess <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/16 13:53:46 by lspiess           #+#    #+#             */
-/*   Updated: 2019/04/17 15:46:38 by lspiess          ###   ########.fr       */
+/*   Created: 2020/11/08 23:53:29 by user42            #+#    #+#             */
+/*   Updated: 2020/11/08 23:53:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "headers_philo_one.h"
 
-void		*ft_memchr(const void *s, int c, size_t n)
+void			*th_decrement(void *p)
 {
-	unsigned int	i;
-	unsigned char	*p;
+	t_philo			*philo;
 
-	i = 0;
-	p = (unsigned char *)s;
-	while (i < n)
-	{
-		if ((unsigned char)(p[i]) == (unsigned char)c)
-			return ((void *)(&(p[i])));
-		i++;
-	}
+	philo = (t_philo *)(p);
+	pthread_mutex_lock(&(philo->meals_left_lock));
+	philo->meals_left -= 1;
+	pthread_mutex_unlock(&(philo->meals_left_lock));
 	return (NULL);
 }
