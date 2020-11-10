@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/09 00:00:37 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/10 19:22:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void			launch_simulation(t_philos *s)
 		s->head = s->head->next;
 	}
 	waitpid(-1, &waitpidret, 0);
+	kill_pids(s);
 	usleep(1000000);
 	free_and_exit(s, NULL, 0);
 }

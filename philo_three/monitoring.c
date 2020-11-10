@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 14:24:12 by user42            #+#    #+#             */
-/*   Updated: 2020/11/08 23:56:08 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/10 19:19:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void			*died(t_philos *s, t_philo *philo, unsigned long t)
 {
 	sem_wait(s->man_down_sem);
 	print_died(s, philo, philo->n, t - s->time_to.start);
+//	sem_post(s->man_down_sem);
 	kill_pids(s);
 	free_and_exit(s, NULL, 0);
 	return (NULL);
