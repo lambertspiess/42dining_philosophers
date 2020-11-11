@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 16:25:16 by user42            #+#    #+#             */
-/*   Updated: 2020/11/09 00:05:30 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/11 15:32:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@ int			main(int ac, char **av)
 }
 
 /*
-**printf("n = %d, timers : %d, %d, %d, max meals = %ld\n",
-**	g_phi.n, g_phi.time_to.die, g_phi.time_to.eat, g_phi.time_to.sleep, \
-**	g_phi.max_meals);
-**
+**printf("n = %d, timers : %d, %d, %d, max meals = %ld\n", \
+** g_phi.n, g_phi.time_to.die, g_phi.time_to.eat, g_phi.time_to.sleep, \
+** g_phi.max_meals);
 */
 
 /*
