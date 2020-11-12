@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 20:45:08 by user42            #+#    #+#             */
-/*   Updated: 2020/11/10 19:16:12 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/12 16:29:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@
 # include <sys/types.h>
 
 typedef struct			s_timers {
-	int					eat;
+	unsigned long		eat;
 	unsigned long		eat_us;
-	int					sleep;
+	unsigned long		sleep;
 	unsigned long		sleep_us;
-	int					die;
+	unsigned long		die;
 	unsigned long		die_us;
 	unsigned long		start;
 }						t_timers;
@@ -69,16 +69,11 @@ char					*ft_strcpy(char *dst, const char *src);
 
 void					error_exit(char *s);
 unsigned long			gettime(struct timeval *tv);
-void					print_took_forks(t_philos *s, t_philo *philo, \
-											int n, unsigned long ms);
-void					print_is_eating(t_philos *s, t_philo *philo, \
-											int n, unsigned long ms);
-void					print_is_sleeping(t_philos *s, t_philo *philo, \
-											int n, unsigned long ms);
-void					print_is_thinking(t_philos *s, t_philo *philo, \
-											int n, unsigned long ms);
-void					print_died(t_philos *s, t_philo *philo, \
-											int n, unsigned long ms);
+void					print_took_forks(t_philos *s, int n, unsigned long ms);
+void					print_is_eating(t_philos *s, int n, unsigned long ms);
+void					print_is_sleeping(t_philos *s, int n, unsigned long ms);
+void					print_is_thinking(t_philos *s, int n, unsigned long ms);
+void					print_died(int n, unsigned long ms);
 
 void					*take_pulse(void *p);
 int						sated(t_philo *philo);

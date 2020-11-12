@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/08 23:50:52 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/12 16:22:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void			*th_decrement(void *p)
 void			*th_print_took_forks(void *p)
 {
 	t_philo			*philo;
-	struct timeval	tv;
 
 	philo = (t_philo *)(p);
 	print_took_forks(philo, philo->n, \
@@ -37,7 +36,6 @@ void			*th_print_took_forks(void *p)
 void			*eat(t_philo *philo)
 {
 	struct timeval	tv;
-	unsigned long	t;
 	pthread_t		id_decrement;
 	pthread_t		idprint_forks;
 
@@ -82,7 +80,6 @@ void			launch_simulation(t_philos *s)
 {
 	int				i;
 	pthread_t		ids[200];
-	void			*ret;
 	t_philo			*head;
 	struct timeval	tv;
 

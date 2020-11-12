@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/08 23:53:14 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/12 16:17:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void			grab_left_then_right_fork(t_philo *philo)
 void			*eat(t_philo *philo)
 {
 	struct timeval	tv;
-	unsigned long	t;
 	pthread_t		iddecrement;
 
 	if (philo->n % 2 == 0)
@@ -83,7 +82,6 @@ void			launch_simulation(t_philos *s)
 {
 	int				i;
 	pthread_t		ids[200];
-	void			*ret;
 	t_philo			*head;
 	struct timeval	tv;
 

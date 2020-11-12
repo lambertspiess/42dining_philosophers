@@ -1,11 +1,11 @@
 all :
-	@clang -lpthread -D_REENTRANT *.c -o philo_one
+	@clang -lpthread -D_REENTRANT -Wall -Wextra -Werror *.c -o philo_one
 
 san:
-	@clang -lpthread -D_REENTRANT -fsanitize=address,undefined *.c -o san_philo_one
+	@clang -lpthread -D_REENTRANT -Wall -Wextra -Werror -fsanitize=address,undefined *.c -o san_philo_one
 
 val:
-	@clang -lpthread -D_REENTRANT -ggdb3 *.c -o val_philo_one
+	@clang -lpthread -D_REENTRANT -Wall -Wextra -Werror -ggdb3 *.c -o val_philo_one
 
 clean :
 	@rm -f *.o

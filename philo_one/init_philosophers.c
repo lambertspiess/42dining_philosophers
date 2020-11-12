@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:14:03 by user42            #+#    #+#             */
-/*   Updated: 2020/10/30 23:40:45 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/12 16:17:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void		free_and_exit(t_philos *s, char *errmsg, int retval)
 	t_philo		*to_free;
 	t_philo		*head;
 
+	(void)(errmsg);
 	i = 0;
 	head = s->philo;
 	while (i < s->n)

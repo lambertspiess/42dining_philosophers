@@ -6,14 +6,13 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 18:14:29 by user42            #+#    #+#             */
-/*   Updated: 2020/11/10 17:06:23 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/12 16:29:48 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers_philo_three.h"
 
-void		print_took_forks(t_philos *sp, t_philo *philo, int n, \
-														unsigned long ms)
+void		print_took_forks(t_philos *sp, int n, unsigned long ms)
 {
 	int			i;
 	char		s[248];
@@ -38,8 +37,7 @@ void		print_took_forks(t_philos *sp, t_philo *philo, int n, \
 	sem_post(sp->man_down_sem);
 }
 
-void		print_is_eating(t_philos *sp, t_philo *philo, int n, \
-														unsigned long ms)
+void		print_is_eating(t_philos *sp, int n, unsigned long ms)
 {
 	int			i;
 	char		s[124];
@@ -56,8 +54,7 @@ void		print_is_eating(t_philos *sp, t_philo *philo, int n, \
 	sem_post(sp->man_down_sem);
 }
 
-void		print_is_sleeping(t_philos *sp, t_philo *philo, int n, \
-														unsigned long ms)
+void		print_is_sleeping(t_philos *sp, int n, unsigned long ms)
 {
 	int			i;
 	char		s[124];
@@ -74,8 +71,7 @@ void		print_is_sleeping(t_philos *sp, t_philo *philo, int n, \
 	sem_post(sp->man_down_sem);
 }
 
-void		print_is_thinking(t_philos *sp, t_philo *philo, int n, \
-														unsigned long ms)
+void		print_is_thinking(t_philos *sp, int n, unsigned long ms)
 {
 	int			i;
 	char		s[124];
@@ -92,8 +88,7 @@ void		print_is_thinking(t_philos *sp, t_philo *philo, int n, \
 	sem_post(sp->man_down_sem);
 }
 
-void		print_died(t_philos *sp, t_philo *philo, int n, \
-														unsigned long ms)
+void		print_died(int n, unsigned long ms)
 {
 	int			i;
 	char		s[124];

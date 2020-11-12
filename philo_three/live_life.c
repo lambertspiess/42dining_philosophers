@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:13:37 by user42            #+#    #+#             */
-/*   Updated: 2020/11/10 19:22:05 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/12 16:31:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,15 @@ void			*th_decrement(void *p)
 void			*th_print_took_forks(void *p)
 {
 	t_philos		*s;
-	struct timeval	tv;
 
 	s = (t_philos *)(p);
-	print_took_forks(s, s->head, s->head->n, \
-						s->head->last_meal - s->time_to.start);
+	print_took_forks(s, s->head->n, s->head->last_meal - s->time_to.start);
 	return (NULL);
 }
 
 void			*eat(t_philos *s, t_philo *philo)
 {
 	struct timeval	tv;
-	unsigned long	t;
 	pthread_t		idprint_eating;
 	pthread_t		idprint_forks;
 
@@ -60,7 +57,6 @@ void			simulate_philo(t_philos *s, t_philo *philo)
 {
 	struct timeval	tv;
 	pthread_t		idpulse;
-	int				ret;
 
 	philo->last_meal = philo->time_to->start;
 	s->man_down_sem = sem_open("/man_down_sem", O_CREAT, S_IRWXU, 1);
@@ -71,11 +67,9 @@ void			simulate_philo(t_philos *s, t_philo *philo)
 		eat(s, philo);
 		if (sated(philo))
 			break ;
-		print_is_sleeping(s, philo, philo->n, \
-							gettime(&tv) - philo->time_to->start);
+		print_is_sleeping(s, philo->n, gettime(&tv) - philo->time_to->start);
 		usleep(philo->time_to->sleep_us);
-		print_is_thinking(s, philo, philo->n, \
-							gettime(&tv) - philo->time_to->start);
+		print_is_thinking(s, philo->n, gettime(&tv) - philo->time_to->start);
 	}
 	pthread_join(idpulse, NULL);
 	free_and_exit(s, NULL, 0);
@@ -84,7 +78,6 @@ void			simulate_philo(t_philos *s, t_philo *philo)
 void			launch_simulation(t_philos *s)
 {
 	int				i;
-	void			*ret;
 	struct timeval	tv;
 	int				waitpidret;
 

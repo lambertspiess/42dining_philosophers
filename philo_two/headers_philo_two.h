@@ -6,7 +6,7 @@
 /*   By: user42 <root@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 20:45:08 by user42            #+#    #+#             */
-/*   Updated: 2020/11/08 16:27:40 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/12 16:22:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 # include <sys/stat.h>
 
 typedef struct			s_timers {
-	int					eat;
+	unsigned long		eat;
 	unsigned long		eat_us;
-	int					sleep;
+	unsigned long		sleep;
 	unsigned long		sleep_us;
-	int					die;
+	unsigned long		die;
 	unsigned long		die_us;
 	unsigned long		start;
 }						t_timers;
